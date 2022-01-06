@@ -1,15 +1,29 @@
 package com.example.contactsapp.models;
 
+import io.objectbox.annotation.Entity;
+import io.objectbox.annotation.Id;
+
+@Entity
 public class ContactDetails {
     String firstName, lastName, profileImage;
     int phoneNumber;
     int saveLocation;
+    String image;
+    boolean isFavorite;
 
-    public ContactDetails(String firstName, String lastName, int phoneNumber, int saveLocation) {
+    @Id
+    long id;
+
+    public ContactDetails(String firstName, String lastName, int phoneNumber, int saveLocation, boolean isFavorite) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.saveLocation = saveLocation;
+        this.isFavorite = isFavorite;
+    }
+
+    public  ContactDetails(){
+
     }
 
     public String getFirstName() {
@@ -50,5 +64,13 @@ public class ContactDetails {
 
     public void setSaveLocation(int saveLocation) {
         this.saveLocation = saveLocation;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 }

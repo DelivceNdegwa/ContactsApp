@@ -98,4 +98,5 @@
     <string name="view_linked_contacts">View linked contacts</string>
     <string name="share">Share</string>
     <string name="delete">Delete</string>
+    <string name="save">Save</string>
 </resources>

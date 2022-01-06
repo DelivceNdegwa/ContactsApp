@@ -10,7 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ContactsApp">
         <activity
-            android:name=".ContactDetails"
+            android:name=".EditContactActivity"
+            android:exported="false" />
+        <activity
+            android:name=".NewContactActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ContactDetailsActivity"
             android:exported="false"
             android:label="@string/title_activity_contact_details"
             android:theme="@style/Theme.ContactsApp.NoActionBar" />
