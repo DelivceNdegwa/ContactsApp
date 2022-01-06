@@ -13,77 +13,253 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/phoneWhatsAppCard"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            app:cardElevation="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:cardElevation="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    >
+
+                    <ImageButton
+                        android:id="@+id/btnPhoneCall"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:src="@drawable/ic_baseline_call_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/teal_700" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/btnPhoneCall"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            style="@style/TextAppearance.AppCompat.Body1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/phone_number"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/mobile"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:id="@+id/btnMessage"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:src="@drawable/ic_baseline_message_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/teal_700" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/btnWhatsAppVoiceCall"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="57dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:src="@drawable/whatsapp__1_"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
+
+                    <TextView
+                        style="@style/TextAppearance.AppCompat.Body1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Voice call +254711994966"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/btnWhatsAppVoiceCall"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginStart="9dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/whatsAppVideoCall"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="57dp"
+                        android:layout_height="57dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:src="@drawable/whatsapp__1_"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                         />
+
+                    <TextView
+                        style="@style/TextAppearance.AppCompat.Body1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Video call +254711994966"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/whatsAppVideoCall"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginStart="9dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/btnWhatsAppMessage"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="57dp"
+                        android:layout_height="57dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:src="@drawable/whatsapp__1_"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
+
+                    <TextView
+                        style="@style/TextAppearance.AppCompat.Body1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Message +254711994966"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/btnWhatsAppMessage"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginStart="7dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/callRecording"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardElevation="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/phoneWhatsAppCard">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <ImageButton
-                    android:id="@+id/callButton"
+                    android:id="@+id/btnCallRecording"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:src="@drawable/ic_baseline_call_24"
+                    android:src="@drawable/ic_baseline_mic_24"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:tint="@color/teal_700" />
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tvRecording"
+                    style="@style/TextAppearance.AppCompat.Body1"
                     android:layout_width="wrap_content"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:orientation="vertical"
+                    android:text="Call recorder"
+                    android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@id/callButton"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TextView
-                        style="@style/TextAppearance.AppCompat.Body1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/phone_number"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/mobile"
-                        android:textSize="16sp" />
-
-                </LinearLayout>
+                    app:layout_constraintLeft_toRightOf="@id/btnCallRecording"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageButton
-                    android:id="@+id/messageButton"
+                    android:id="@+id/goToRecording"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:src="@drawable/ic_baseline_message_24"
+                    android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:tint="@color/teal_700" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </com.google.android.material.card.MaterialCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
