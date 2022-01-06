@@ -1,0 +1,43 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.contactsapp.ContactDetails"
+
+    >
+    <item
+        android:id="@+id/action_favorite"
+        android:title="@string/favorite"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_baseline_star_border_24"
+        android:iconTint="@color/white"
+        />
+
+    <item
+        android:id="@+id/action_edit_contact"
+        android:title="@string/edit"
+        android:icon="@drawable/ic_baseline_edit_24"
+        app:showAsAction="always"
+        android:iconTint="@color/white"
+        />
+
+    <item
+        android:id="@+id/action_linked_contacts"
+        android:title="@string/view_linked_contacts"
+        app:showAsAction="never"
+        android:iconTint="@color/white"
+        />
+
+    <item
+        android:id="@+id/action_delete_contact"
+        android:title="@string/delete"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/action_share"
+        android:title="@string/share"
+        app:showAsAction="never"
+        />
+
+
+</menu>
