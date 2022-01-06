@@ -11,6 +11,6 @@ Get the code in the master branch
 ## Developer Details
 * Name: Delivce Ndegwa
 * Contact: delivce.ndegwa18@gmail.com
-* Phone Number: +254711994966
+* Phone number: +254711994966
 
 
