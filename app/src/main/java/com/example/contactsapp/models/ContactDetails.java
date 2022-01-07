@@ -8,11 +8,15 @@ public class ContactDetails {
     String firstName, lastName, profileImage;
     int phoneNumber;
     int saveLocation;
-    String image;
+    String userEmail;
     boolean isFavorite;
 
     @Id
     long id;
+
+    public  ContactDetails(){
+
+    }
 
     public ContactDetails(String firstName, String lastName, int phoneNumber, int saveLocation, boolean isFavorite) {
         this.firstName = firstName;
@@ -20,10 +24,6 @@ public class ContactDetails {
         this.phoneNumber = phoneNumber;
         this.saveLocation = saveLocation;
         this.isFavorite = isFavorite;
-    }
-
-    public  ContactDetails(){
-
     }
 
     public String getFirstName() {
@@ -64,6 +64,22 @@ public class ContactDetails {
 
     public void setSaveLocation(int saveLocation) {
         this.saveLocation = saveLocation;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public boolean isFavorite() {
