@@ -24,6 +24,8 @@ import android.widget.Toast;
 
 import com.example.contactsapp.databinding.ActivityContactDetailsBinding;
 
+import io.objectbox.Box;
+
 public class ContactDetailsActivity extends AppCompatActivity {
 
     private ActivityContactDetailsBinding binding;
@@ -32,6 +34,11 @@ public class ContactDetailsActivity extends AppCompatActivity {
 
     TextView tvPhoneCall, tvWhatsAppVoiceCall, tvWhatsAppVideoCall, tvWhatsAppMessage;
     ImageView imgProfile;
+
+    boolean isFavContact;
+    long contactId;
+
+    Box<ContactDetails> detailsBox = ObjectBox.get().boxFor(ContactDetails.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,17 +67,13 @@ public class ContactDetailsActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        Toast.makeText(this,
-                String.valueOf(intent.getLongExtra("CONTACT_ID", 0)),
-                Toast.LENGTH_LONG).show();
-
-
         if(intent.hasExtra("CONTACT_ID")){
-            Log.d("TEST::::", "Success");
-            ContactDetails details = ObjectBox.get().boxFor(ContactDetails.class)
-                    .get(intent.getLongExtra("CONTACT_ID", 0));
+            contactId = intent.getLongExtra("CONTACT_ID", 0);
+            ContactDetails details = detailsBox.get(contactId);
 
             String countryCode = "+254";
+
+            isFavContact = details.isFavorite();
 
             Glide.with(this)
                     .load(details.getProfileImage())
@@ -83,9 +86,6 @@ public class ContactDetailsActivity extends AppCompatActivity {
             tvWhatsAppVideoCall.setText(String.format("Video call  %s", countryCode+String.valueOf(details.getPhoneNumber())));
             tvWhatsAppMessage.setText(String.format("Message  %s", countryCode+String.valueOf(details.getPhoneNumber())));
         }
-        else{
-            Log.d("TEST::::", "Failed");
-        }
 
     }
 
@@ -96,15 +96,47 @@ public class ContactDetailsActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem favoritesItem = menu.findItem(R.id.action_favorite);
+        if(isFavContact){
+            favoritesItem.setIcon(getDrawable(R.drawable.ic_baseline_star_24));
+
+        }
+        else{
+            favoritesItem.setIcon(getDrawable(R.drawable.ic_baseline_star_border_24));
+        }
+
+        favoritesItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                return false;
+            }
+        });
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         int item_selected = item.getItemId();
 
         switch (item_selected){
             case R.id.action_favorite:
+                ContactDetails contactDetails = detailsBox.get(contactId);
+                boolean current_favorite = contactDetails.isFavorite();
+                contactDetails.setFavorite(!current_favorite);
+                detailsBox.put(contactDetails);
+//                invalidateOptionsMenu();
+                supportInvalidateOptionsMenu();
                 return true;
 
             case R.id.action_edit_contact:
+
+                Intent intent  = new Intent(ContactDetailsActivity.this, EditContactActivity.class);
+                intent.putExtra("CONTACT_ID", contactId);
+                startActivity(intent);
+
                 return true;
 
             case R.id.action_linked_contacts:
@@ -119,4 +151,5 @@ public class ContactDetailsActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }

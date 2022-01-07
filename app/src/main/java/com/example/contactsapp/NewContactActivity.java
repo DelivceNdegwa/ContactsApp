@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.contactsapp.models.ContactDetails;
+import com.example.contactsapp.utils.Common;
 import com.example.contactsapp.utils.ObjectBox;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -30,10 +31,7 @@ import java.io.InputStream;
 import io.objectbox.Box;
 
 public class NewContactActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
-    public static String ACTION_TITLE = "Create new contact";
 
-    public static int SELECT_IMAGE = 200;
-    protected static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 0;
     String  profileImageUri = "android.resource://com.example.contactsapp/drawable/ic_baseline_account_circle_24";
 
     String[] saveLocations = {"Gmail", "Safaricom", "Airtel", "Phone"};
@@ -44,6 +42,7 @@ public class NewContactActivity extends AppCompatActivity implements AdapterView
     ConstraintLayout imageContainer;
 
     Box<ContactDetails> detailsBox = ObjectBox.get().boxFor(ContactDetails.class);
+    Common commonVariables = new Common();
 
     /*
     Uri uri = Uri.parse("android.resource://your.package.here/drawable/image_name");
@@ -71,7 +70,8 @@ public class NewContactActivity extends AppCompatActivity implements AdapterView
     @Override
     protected void onResume() {
         super.onResume();
-        getSupportActionBar().setTitle(ACTION_TITLE);
+        commonVariables.setActionTitle("Create a new contact");
+        getSupportActionBar().setTitle(commonVariables.getActionTitle());
 
         Spinner saveLocationSpinner = findViewById(R.id.spinner_saving);
         saveLocationSpinner.setOnItemSelectedListener(this);
@@ -90,47 +90,6 @@ public class NewContactActivity extends AppCompatActivity implements AdapterView
             }
         });
     }
-
-    public void imageChooser() {
-
-        // create an instance of the
-        // intent of the type image
-        Intent i = new Intent();
-        i.setType("image/*");
-        i.setAction(Intent.ACTION_GET_CONTENT);
-
-        // pass the constant to compare it
-        // with the returned requestCode
-        startActivityForResult(Intent.createChooser(i, "Select an image"), SELECT_IMAGE);
-    }
-
-    public void takePhoto(){
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        Uri imageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"fname_" +
-                String.valueOf(System.currentTimeMillis()) + ".jpg"));
-        intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, imageUri);
-        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == RESULT_OK) {
-
-            // compare the resultCode with the
-            // SELECT_PICTURE constant
-            if (requestCode == SELECT_IMAGE) {
-                // Get the url of the image from data
-                Uri selectedImageUri = data.getData();
-                if (null != selectedImageUri) {
-                    // update the preview image in the layout
-                    profileImageUri = String.valueOf(selectedImageUri);
-                    profileImage.setImageURI(selectedImageUri);
-                }
-            }
-        }
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -165,6 +124,48 @@ public class NewContactActivity extends AppCompatActivity implements AdapterView
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
+
+
+    public void imageChooser() {
+
+        // create an instance of the
+        // intent of the type image
+        Intent i = new Intent();
+        i.setType("image/*");
+        i.setAction(Intent.ACTION_GET_CONTENT);
+
+        // pass the constant to compare it
+        // with the returned requestCode
+        startActivityForResult(Intent.createChooser(i, "Select an image"), commonVariables.SELECT_IMAGE);
+    }
+
+    public void takePhoto(){
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Uri imageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"fname_" +
+                String.valueOf(System.currentTimeMillis()) + ".jpg"));
+        intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, imageUri);
+        startActivityForResult(intent, commonVariables.CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+
+            // compare the resultCode with the
+            // SELECT_PICTURE constant
+            if (requestCode == commonVariables.SELECT_IMAGE) {
+                // Get the url of the image from data
+                Uri selectedImageUri = data.getData();
+                if (null != selectedImageUri) {
+                    // update the preview image in the layout
+                    profileImageUri = String.valueOf(selectedImageUri);
+                    profileImage.setImageURI(selectedImageUri);
+                }
+            }
+        }
+    }
+
 
 
     public void validateContactDetails(){
