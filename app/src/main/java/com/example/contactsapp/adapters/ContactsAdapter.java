@@ -2,6 +2,7 @@ package com.example.contactsapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,6 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
 
     Context context;
     List<ContactDetails> contacts;
-    public long contact_id;
 
     public ContactsAdapter(Context context, List<ContactDetails> contacts) {
         this.context = context;
@@ -42,9 +42,15 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         ContactDetails contact = contacts.get(position);
 
         holder.txtContactName.setText(contact.getFirstName());
-        Glide.with(context).load(contact.getProfileImage()).into(holder.imgContact);
 
-        contact_id = holder.id;
+        Glide.with(context)
+                .load(contact
+                .getProfileImage())
+                .circleCrop()
+                .placeholder(R.drawable.ic_baseline_account_circle_24)
+                .into(holder.imgContact);
+
+        holder.id = contact.getId();
 
     }
 
@@ -71,7 +77,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, ContactDetailsActivity.class);
-                    intent.putExtra("CONTACT_ID", contact_id);
+                    intent.putExtra("CONTACT_ID", id);
                     context.startActivity(intent);
                 }
             });

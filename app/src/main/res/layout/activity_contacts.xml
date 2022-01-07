@@ -10,22 +10,19 @@
         android:id="@+id/rv_contacts"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_new_contact" />
+        tools:layout_editor_absoluteY="64dp" />
 
-    <Button
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btn_new_contact"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:text="Create new contact"
-        android:textColor="@color/dark"
-        app:icon="@drawable/ic_baseline_add_24"
+        android:layout_marginBottom="32dp"
+        android:backgroundTint="@color/teal_700"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:srcCompat="@android:drawable/ic_input_add" />
 </androidx.constraintlayout.widget.ConstraintLayout>
