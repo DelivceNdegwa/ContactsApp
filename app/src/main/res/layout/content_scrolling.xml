@@ -37,7 +37,7 @@
                     >
 
                     <ImageButton
-                        android:id="@+id/btnPhoneCall"
+                        android:id="@+id/btn_phone_call"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
@@ -58,7 +58,7 @@
                         android:layout_marginBottom="8dp"
                         android:orientation="vertical"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toRightOf="@id/btnPhoneCall"
+                        app:layout_constraintLeft_toRightOf="@id/btn_phone_call"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
@@ -78,7 +78,7 @@
                     </LinearLayout>
 
                     <ImageButton
-                        android:id="@+id/btnMessage"
+                        android:id="@+id/btn_message"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="50dp"
                         android:layout_height="50dp"

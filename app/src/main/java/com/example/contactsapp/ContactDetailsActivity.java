@@ -1,6 +1,10 @@
 package com.example.contactsapp;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
@@ -11,13 +15,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,9 +42,14 @@ public class ContactDetailsActivity extends AppCompatActivity {
 
     TextView tvPhoneCall, tvWhatsAppVoiceCall, tvWhatsAppVideoCall, tvWhatsAppMessage;
     ImageView imgProfile;
+    ImageButton btnMessage, btnPhoneCall;
+
+    private static final int REQUEST_SEND_SMS = 0;
 
     boolean isFavContact;
     long contactId;
+
+    String phone;
 
     Box<ContactDetails> detailsBox = ObjectBox.get().boxFor(ContactDetails.class);
 
@@ -64,6 +77,8 @@ public class ContactDetailsActivity extends AppCompatActivity {
         tvWhatsAppVideoCall = findViewById(R.id.tv_whatsapp_videocall);
         tvWhatsAppVoiceCall = findViewById(R.id.tv_whatsapp_voicecall);
         imgProfile = findViewById(R.id.profile_image);
+        btnMessage = findViewById(R.id.btn_message);
+        btnPhoneCall = findViewById(R.id.btn_phone_call);
 
         Intent intent = getIntent();
 
@@ -85,6 +100,27 @@ public class ContactDetailsActivity extends AppCompatActivity {
             tvWhatsAppVoiceCall.setText(String.format("Voice call  %s", countryCode+String.valueOf(details.getPhoneNumber())));
             tvWhatsAppVideoCall.setText(String.format("Video call  %s", countryCode+String.valueOf(details.getPhoneNumber())));
             tvWhatsAppMessage.setText(String.format("Message  %s", countryCode+String.valueOf(details.getPhoneNumber())));
+
+            phone = tvPhoneCall.getText().toString().trim();
+
+            btnMessage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    sendTextMessage("");
+                }
+            });
+
+            btnPhoneCall.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    makePhoneCall();
+                }
+            });
+        }
+        else{
+            Toast.makeText(this, "Could not load contact", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(ContactDetailsActivity.this, ContactsActivity.class);
+            startActivity(i);
         }
 
     }
@@ -140,9 +176,12 @@ public class ContactDetailsActivity extends AppCompatActivity {
                 return true;
 
             case R.id.action_linked_contacts:
+
                 return true;
 
             case R.id.action_delete_contact:
+                ContactDetails contactDeleteDetails = detailsBox.get(contactId);
+                showPromptDialog(contactDeleteDetails);
                 return true;
 
             case R.id.action_share:
@@ -150,6 +189,54 @@ public class ContactDetailsActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void makePhoneCall(){
+
+        Intent callIntent = new Intent(Intent.ACTION_DIAL);
+        callIntent.setData(Uri.parse("tel:" + phone));
+        if (callIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(callIntent);
+        }
+
+    }
+
+    public void sendTextMessage(String message){
+        Uri attachment = Uri.parse("smsto:"+phone);
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setData(Uri.parse("smsto:"));  // This ensures only SMS apps respond
+        intent.putExtra("sms_body", message);
+        intent.putExtra(Intent.EXTRA_STREAM, attachment);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+
+    }
+
+    public void showPromptDialog(ContactDetails contactDetails){
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        deleteContact(contactDetails);
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to delete "+contactDetails.getFirstName()+"?")
+                .setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
+    }
+
+    private void deleteContact(ContactDetails contactDetails) {
+        detailsBox.remove(contactDetails);
     }
 
 }
