@@ -50,6 +50,7 @@ public class ContactDetailsActivity extends AppCompatActivity {
     long contactId;
 
     String phone;
+    boolean current_favorite;
 
     Box<ContactDetails> detailsBox = ObjectBox.get().boxFor(ContactDetails.class);
 
@@ -132,10 +133,68 @@ public class ContactDetailsActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        int item_selected = item.getItemId();
+        boolean result = true;
+        switch (item_selected){
+            case R.id.action_favorite:
+                ContactDetails contactDetails = detailsBox.get(contactId);
+                current_favorite = contactDetails.isFavorite();
+
+//                contactDetails.setFavorite(!current_favorite);
+//                detailsBox.put(contactDetails);
+////              invalidateOptionsMenu();
+//                supportInvalidateOptionsMenu();
+
+                if(current_favorite){
+                    current_favorite = false;
+
+                }
+                else{
+                    current_favorite = true;
+                }
+
+                contactDetails.setFavorite(current_favorite);
+                detailsBox.put(contactDetails);
+
+                invalidateOptionsMenu();
+
+                break;
+
+            case R.id.action_edit_contact:
+
+                Intent intent  = new Intent(ContactDetailsActivity.this, EditContactActivity.class);
+                intent.putExtra("CONTACT_ID", contactId);
+                startActivity(intent);
+
+                break;
+
+            case R.id.action_linked_contacts:
+
+                break;
+
+            case R.id.action_delete_contact:
+                ContactDetails contactDeleteDetails = detailsBox.get(contactId);
+                showPromptDialog(contactDeleteDetails);
+                break;
+
+            case R.id.action_share:
+                break;
+
+            default:
+                result = super.onOptionsItemSelected(item);
+        }
+
+        return result;
+    }
+
+    @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem favoritesItem = menu.findItem(R.id.action_favorite);
-        if(isFavContact){
+        if(current_favorite){
             favoritesItem.setIcon(getDrawable(R.drawable.ic_baseline_star_24));
+
 
         }
         else{
@@ -150,45 +209,6 @@ public class ContactDetailsActivity extends AppCompatActivity {
         });
 
         return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        int item_selected = item.getItemId();
-
-        switch (item_selected){
-            case R.id.action_favorite:
-                ContactDetails contactDetails = detailsBox.get(contactId);
-                boolean current_favorite = contactDetails.isFavorite();
-                contactDetails.setFavorite(!current_favorite);
-                detailsBox.put(contactDetails);
-//                invalidateOptionsMenu();
-                supportInvalidateOptionsMenu();
-                return true;
-
-            case R.id.action_edit_contact:
-
-                Intent intent  = new Intent(ContactDetailsActivity.this, EditContactActivity.class);
-                intent.putExtra("CONTACT_ID", contactId);
-                startActivity(intent);
-
-                return true;
-
-            case R.id.action_linked_contacts:
-
-                return true;
-
-            case R.id.action_delete_contact:
-                ContactDetails contactDeleteDetails = detailsBox.get(contactId);
-                showPromptDialog(contactDeleteDetails);
-                return true;
-
-            case R.id.action_share:
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public void makePhoneCall(){
