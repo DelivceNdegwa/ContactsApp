@@ -127,21 +127,20 @@ public class EditContactActivity extends AppCompatActivity implements AdapterVie
     }
 
     public void editDetails(){
-        ContactDetails details = new ContactDetails();
+        ContactDetails details = detailsBox.get(contactId);
+        Intent intent = new Intent(EditContactActivity.this, ContactDetailsActivity.class);
+
         details.setFirstName(firstName);
         details.setLastName(lastName);
         details.setPhoneNumber(Integer.parseInt(phoneNumber));
         details.setUserEmail(userEmail);
-        details.setFavorite(false);
         details.setProfileImage(profileImageUri);
 
-        long id = detailsBox.put(details);
+        detailsBox.put(details);
 
-        Toast.makeText(this, String.valueOf(id), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Edits completed", Toast.LENGTH_SHORT).show();
 
-        Toast.makeText(this, "Contact saved", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(EditContactActivity.this, ContactDetailsActivity.class);
-        intent.putExtra("CONTACT_ID", id);
+        intent.putExtra("CONTACT_ID", contactId);
         startActivity(intent);
         finish();
     }
@@ -169,6 +168,7 @@ public class EditContactActivity extends AppCompatActivity implements AdapterVie
         // with the returned requestCode
         startActivityForResult(Intent.createChooser(i, "Select an image"), commonVariables.SELECT_IMAGE);
     }
+
 
     public void takePhoto(){
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

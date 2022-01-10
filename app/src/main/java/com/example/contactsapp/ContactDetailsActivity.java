@@ -167,6 +167,7 @@ public class ContactDetailsActivity extends AppCompatActivity {
                 Intent intent  = new Intent(ContactDetailsActivity.this, EditContactActivity.class);
                 intent.putExtra("CONTACT_ID", contactId);
                 startActivity(intent);
+                finish();
 
                 break;
 
@@ -192,7 +193,9 @@ public class ContactDetailsActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem favoritesItem = menu.findItem(R.id.action_favorite);
-        if(current_favorite){
+        ContactDetails contactDetails = detailsBox.get(contactId);
+        boolean current_fav = contactDetails.isFavorite();
+        if(current_fav){
             favoritesItem.setIcon(getDrawable(R.drawable.ic_baseline_star_24));
 
 
@@ -257,6 +260,10 @@ public class ContactDetailsActivity extends AppCompatActivity {
 
     private void deleteContact(ContactDetails contactDetails) {
         detailsBox.remove(contactDetails);
+        Toast.makeText(this, "Contact deleted", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(ContactDetailsActivity.this, ContactsActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 }
