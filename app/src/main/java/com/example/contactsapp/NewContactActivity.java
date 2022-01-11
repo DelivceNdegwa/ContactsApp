@@ -195,8 +195,6 @@ public class NewContactActivity extends AppCompatActivity implements AdapterView
 
         long id = detailsBox.put(details);
 
-        Toast.makeText(this, String.valueOf(id), Toast.LENGTH_SHORT).show();
-
         Toast.makeText(this, "Contact saved", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(NewContactActivity.this, ContactDetailsActivity.class);
         intent.putExtra("CONTACT_ID", id);

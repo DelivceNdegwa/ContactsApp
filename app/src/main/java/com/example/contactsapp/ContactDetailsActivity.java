@@ -22,6 +22,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +33,8 @@ import android.widget.Toast;
 
 import com.example.contactsapp.databinding.ActivityContactDetailsBinding;
 
+import java.net.URLEncoder;
+
 import io.objectbox.Box;
 
 public class ContactDetailsActivity extends AppCompatActivity {
@@ -41,8 +44,9 @@ public class ContactDetailsActivity extends AppCompatActivity {
     CollapsingToolbarLayout toolBarLayout;
 
     TextView tvPhoneCall, tvWhatsAppVoiceCall, tvWhatsAppVideoCall, tvWhatsAppMessage;
-    ImageView imgProfile;
+    ImageView imgProfile, ivWhatsAppVideo, ivWhatsAppCall, ivWhatsAppMessage;
     ImageButton btnMessage, btnPhoneCall;
+
 
     private static final int REQUEST_SEND_SMS = 0;
 
@@ -80,6 +84,9 @@ public class ContactDetailsActivity extends AppCompatActivity {
         imgProfile = findViewById(R.id.profile_image);
         btnMessage = findViewById(R.id.btn_message);
         btnPhoneCall = findViewById(R.id.btn_phone_call);
+        ivWhatsAppMessage = findViewById(R.id.btnWhatsAppMessage);
+        ivWhatsAppVideo = findViewById(R.id.whatsAppVideoCall);
+        ivWhatsAppCall = findViewById(R.id.btnWhatsAppVoiceCall);
 
         Intent intent = getIntent();
 
@@ -107,7 +114,7 @@ public class ContactDetailsActivity extends AppCompatActivity {
             btnMessage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    sendTextMessage("");
+                    openMessagingApp(phone);
                 }
             });
 
@@ -115,6 +122,12 @@ public class ContactDetailsActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     makePhoneCall();
+                }
+            });
+            ivWhatsAppMessage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openWhatsApp(phone);
                 }
             });
         }
@@ -224,16 +237,29 @@ public class ContactDetailsActivity extends AppCompatActivity {
 
     }
 
-    public void sendTextMessage(String message){
-        Uri attachment = Uri.parse("smsto:"+phone);
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setData(Uri.parse("smsto:"));  // This ensures only SMS apps respond
-        intent.putExtra("sms_body", message);
-        intent.putExtra(Intent.EXTRA_STREAM, attachment);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        }
+    public void openMessagingApp(String phone){
+//        Intent intent = new Intent(Intent.ACTION_MAIN);
+//        intent.addCategory(Intent.CATEGORY_APP_MESSAGING);
+//        startActivity(intent);
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", phone, null)));
+    }
 
+    public void openWhatsApp(String phoneNumber){
+        try{
+            PackageManager packageManager = this.getPackageManager();
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            String url = "https://api.whatsapp.com/send?phone="+ phoneNumber;
+            i.setPackage("com.whatsapp");
+            i.setData(Uri.parse(url));
+            if (i.resolveActivity(packageManager) != null) {
+                startActivity(i);
+            }else {
+                Toast.makeText(this, "Whats App not found in your device", Toast.LENGTH_LONG).show();
+            }
+        } catch(Exception e) {
+            Log.e("ERROR WHATSAPP",e.toString());
+            Toast.makeText(this, "Whats App not found in your device", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void showPromptDialog(ContactDetails contactDetails){
